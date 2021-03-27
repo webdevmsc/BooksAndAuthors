@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Test.ViewModels.AuthorViewModel>
+@{
+    ViewBag.Title = "Authors";
+    Layout = "_Layout";
+}
+
+@* Author list *@
+
+<a asp-action="Create">Добавить автора</a>
+
+
+<div class="table-responsive-md">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Full name</th>
+            <th scope="col">Date of birth</th>
+            <th scope="col">Books</th>
+            <th></th>
+        </tr>
+        </thead>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td class="title">@author.FullName</td>
+                <td class="description">@author.Dob.Value.ToShortDateString()</td>
+                <td>
+                    @foreach (var book in author.Books)
+                    {
+                        <div class="bookListItem">@book.Title</div>
+                    }
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <form asp-action="Delete" asp-route-id="@author.Id" method="post">
+                            <a class="btn btn-sm btn-primary button" asp-action="Edit" asp-route-id="@author.Id">Edit</a>
+                            <button type="submit" class="btn btn-sm btn-danger button">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

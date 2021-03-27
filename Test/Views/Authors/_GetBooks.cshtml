@@ -1,0 +1,21 @@
+﻿@using Test.Services
+@inject BookService BookService
+@model int
+
+@* Partial view - getting multiselectlist with current books *@
+<div class="form-group">
+    @Html.ListBox(
+        "Books",
+        new MultiSelectList(BookService.GetAll().ToList(), "Id", "Title", BookService.GetAll().Where(x => x.Authors.Any(a => a.Id == Model)).Select(u => u.Id)),
+        new { @class = "chzn-select", data_placeholder = "Choose books..." }
+        )
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() 
+    {
+         $('.chzn-select').multiselect({
+             includeSelectAllOption: false
+         });
+     });
+</script>

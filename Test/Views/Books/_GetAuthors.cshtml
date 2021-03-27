@@ -1,0 +1,23 @@
+﻿@using Test.Services
+@inject AuthorService AuthorService
+@model int
+
+@* Partial view - multiselectlist with current authors *@
+
+<div class="form-group">
+        @Html.ListBox(
+            "Authors",
+            new MultiSelectList(@AuthorService.GetAuthorList(), "Id", "FullName", selectedValues: AuthorService.GetAll().Where(x => x.Books.Any(a => a.Id == Model)).Select(u => u.Id)),
+            new { @class = "chzn-select", data_placeholder = "Choose an author..." }
+            )
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() 
+    {
+         $('.chzn-select').multiselect({
+             includeSelectAllOption: false
+         });
+     });
+</script>
+
